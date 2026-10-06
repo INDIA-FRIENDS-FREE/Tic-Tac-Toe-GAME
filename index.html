@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>कट-गोला गेम (Tic-Tac-Toe)</title>
+    <title>कट-गोला गेम (Tic-Tac-Toe Pro)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,6 +19,22 @@
         h1 {
             margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        select {
+            padding: 8px 15px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            background: #ffffff;
+            color: #1e3c72;
+            cursor: pointer;
         }
         .status {
             font-size: 1.2rem;
@@ -80,6 +96,17 @@
 <body>
 
     <h1>❌ कट-गोला गेम ⭕</h1>
+    
+    <!-- स्टेज (Difficulty Level) चुनने का विकल्प -->
+    <div class="controls">
+        <label for="difficulty">लेवल चुनें: </label>
+        <select id="difficulty" onchange="resetGame()">
+            <option value="easy">सरल (Easy)</option>
+            <option value="medium">मध्यम (Medium)</option>
+            <option value="hard" selected>कठिन (Hard) 🔥</option>
+        </select>
+    </div>
+
     <div class="status" id="statusText">आपकी चाल (X)</div>
 
     <div class="board" id="board">
@@ -101,6 +128,7 @@
         let isGameActive = true;
         const statusText = document.getElementById("statusText");
         const cells = document.querySelectorAll(".cell");
+        const difficultySelect = document.getElementById("difficulty");
 
         const winningConditions = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
@@ -111,12 +139,11 @@
         function makeMove(cell, index) {
             if (boardState[index] !== "" || !isGameActive) return;
 
-            // Player's Move
             boardState[index] = "X";
             cell.innerText = "X";
             cell.classList.add("X");
             
-            if (checkWin("X")) {
+            if (checkWin(boardState, "X")) {
                 statusText.innerText = "🎉 बधाई हो! आप जीत गए!";
                 isGameActive = false;
                 return;
@@ -128,19 +155,42 @@
                 return;
             }
 
-            // Immediate Computer Move (No Delay)
+            // प्लेयर की चाल के तुरंत बाद कंप्यूटर चलेगा
             computerMove();
         }
 
         function computerMove() {
-            let move = findBestMove("O") || findBestMove("X") || getRandomMove();
+            const level = difficultySelect.value;
+            let move = null;
 
-            if (move !== null) {
+            if (level === "easy") {
+                // बिल्कुल रैंडम चाल
+                move = getRandomMove();
+            } else if (level === "medium") {
+                // जीतने या ब्लॉक करने की कोशिश, वरना रैंडम
+                move = findImmediateMove("O") || findImmediateMove("X") || getRandomMove();
+            } else if (level === "hard") {
+                // नामुमकिन मोड - Minimax Algorithm
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (boardState[i] === "") {
+                        boardState[i] = "O";
+                        let score = minimax(boardState, 0, true);
+                        boardState[i] = "";
+                        if (score < bestScore) {
+                            bestScore = score;
+                            move = i;
+                        }
+                    }
+                }
+            }
+
+            if (move !== null && move !== undefined) {
                 boardState[move] = "O";
                 cells[move].innerText = "O";
                 cells[move].classList.add("O");
 
-                if (checkWin("O")) {
+                if (checkWin(boardState, "O")) {
                     statusText.innerText = "😢 कंप्यूटर जीत गया! फिर से कोशिश करें।";
                     isGameActive = false;
                     return;
@@ -155,7 +205,8 @@
             statusText.innerText = "आपकी चाल (X)";
         }
 
-        function findBestMove(player) {
+        // मीडियम मोड के लिए तुरंत ब्लॉक या विन ढूंढना
+        function findImmediateMove(player) {
             for (let condition of winningConditions) {
                 let count = 0;
                 let emptyIndex = null;
@@ -163,9 +214,7 @@
                     if (boardState[index] === player) count++;
                     else if (boardState[index] === "") emptyIndex = index;
                 }
-                if (count === 2 && emptyIndex !== null) {
-                    return emptyIndex;
-                }
+                if (count === 2 && emptyIndex !== null) return emptyIndex;
             }
             return null;
         }
@@ -177,13 +226,43 @@
             return availableMoves[Math.floor(Math.random() * availableMoves.length)];
         }
 
-        function checkWin(player) {
+        function checkWin(board, player) {
             return winningConditions.some(condition => {
-                return condition.every(index => boardState[index] === player);
+                return condition.every(index => board[index] === player);
             });
         }
 
-        // Force Clear Memory On Reset
+        // अनबीटेबल AI के लिए मिनीमैक्स एल्गोरिथम
+        function minimax(board, depth, isMaximizing) {
+            if (checkWin(board, "X")) return 10 - depth;
+            if (checkWin(board, "O")) return depth - 10;
+            if (!board.includes("")) return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === "") {
+                        board[i] = "X";
+                        let score = minimax(board, depth + 1, false);
+                        board[i] = "";
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === "") {
+                        board[i] = "O";
+                        let score = minimax(board, depth + 1, true);
+                        board[i] = "";
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
         function resetGame() {
             boardState = ["", "", "", "", "", "", "", "", ""];
             isGameActive = true;
