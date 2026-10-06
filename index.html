@@ -56,12 +56,8 @@
             background: #e0e0e0;
             transform: scale(1.05);
         }
-        .cell.X {
-            color: #ff4757;
-        }
-        .cell.O {
-            color: #2ed573;
-        }
+        .cell.X { color: #ff4757; }
+        .cell.O { color: #2ed573; }
         .btn {
             margin-top: 25px;
             padding: 12px 30px;
@@ -106,14 +102,16 @@
         const statusText = document.getElementById("statusText");
         const cells = document.querySelectorAll(".cell");
 
-        // जीतने की सारी सही शर्तें
-        const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]             // Diagonals
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
         ];
 
         function makeMove(cell, index) {
             if (boardState[index] !== "" || !isGameActive) return;
 
-            // खिलाड़ी की चाल (X)
+            // Player's Move
             boardState[index] = "X";
             cell.innerText = "X";
             cell.classList.add("X");
@@ -124,18 +122,17 @@
                 return;
             }
 
-            if (boardState.includes("")) {
-                statusText.innerText = "⚡ कंप्यूटर सोच रहा है...";
-                isGameActive = false; 
-                setTimeout(computerMove, 500); // 0.5 सेकंड का डिले
-            } else {
+            if (!boardState.includes("")) {
                 statusText.innerText = "🤝 मैच ड्रॉ हो गया!";
                 isGameActive = false;
+                return;
             }
+
+            // Immediate Computer Move (No Delay)
+            computerMove();
         }
 
         function computerMove() {
-            // कंप्यूटर का दिमाग: पहले जीतने की कोशिश, फिर खिलाड़ी को रोकना
             let move = findBestMove("O") || findBestMove("X") || getRandomMove();
 
             if (move !== null) {
@@ -155,9 +152,7 @@
                     return;
                 }
             }
-            
             statusText.innerText = "आपकी चाल (X)";
-            isGameActive = true;
         }
 
         function findBestMove(player) {
@@ -188,6 +183,7 @@
             });
         }
 
+        // Force Clear Memory On Reset
         function resetGame() {
             boardState = ["", "", "", "", "", "", "", "", ""];
             isGameActive = true;
