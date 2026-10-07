@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* स्कोरबोर्ड की स्टाइलिंग */
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f7f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e4e6eb;
+}
+
+.score-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 14px;
+    color: #65676b;
+    font-weight: bold;
+}
+
+.score {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1877f2;
+}
+
+.target-box {
+    background: #e7f3ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.target-title {
+    font-size: 11px;
+    display: block;
+    color: #1877f2;
+    font-weight: bold;
+}
+
+.target-num {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1877f2;
+}
+
+.status {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    height: 27px;
+}
+
+/* 3x3 ग्रिड बोर्ड */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cell {
+    background-color: #f0f2f5;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+}
+
+.cell:hover {
+    background-color: #e4e6eb;
+}
+
+.cell.x {
+    color: #28a745;
+}
+
+.cell.o {
+    color: #dc3545;
+}
+
+/* कंट्रोल बटन्स */
+.btn-container {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #1877f2;
+    color: white;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #145dbf;
+}
+
+.danger-btn {
+    background-color: #e4e6eb;
+    color: #333;
+}
+
+.danger-btn:hover {
+    background-color: #d8dadf;
+}
