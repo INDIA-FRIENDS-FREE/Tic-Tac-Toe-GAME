@@ -127,20 +127,25 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        // स्ट्रिंग आधारित लॉजिक ताकि सिस्टम इसे कभी डिलीट न कर सके
-        const linesStr = "0,1,2|3,4,5|6,7,8|0,3,6|1,4,7|2,5,8|0,4,8|2,4,6";
-        const winningConditions = linesStr.split("|").map(line => line.split(",").map(Number));
+        // बिना किसी एरे या कॉमा के 100% फुलप्रूफ विनिंग चेक फंक्शन
+        function checkWin(board, p) {
+            if (board[0]===p && board[1]===p && board[2]===p) return true;
+            if (board[3]===p && board[4]===p && board[5]===p) return true;
+            if (board[6]===p && board[7]===p && board[8]===p) return true;
+            if (board[0]===p && board[3]===p && board[6]===p) return true;
+            if (board[1]===p && board[4]===p && board[7]===p) return true;
+            if (board[2]===p && board[5]===p && board[8]===p) return true;
+            if (board[0]===p && board[4]===p && board[8]===p) return true;
+            if (board[2]===p && board[4]===p && board[6]===p) return true;
+            return false;
+        }
 
         function changeTheme() {
             const selectedTheme = themeSelect.value;
-            document.body.classList.remove('theme-black', 'theme-white', 'theme-green');
+            document.body.className = ""; // पुरानी सभी क्लासेस हटा दीं
             if (selectedTheme === 'black') document.body.classList.add('theme-black');
             if (selectedTheme === 'white') document.body.classList.add('theme-white');
             if (selectedTheme === 'green') document.body.classList.add('theme-green');
-        }
-
-        function checkWin(board, player) {
-            return winningConditions.some(cond => board[cond[0]] === player && board[cond[1]] === player && board[cond[2]] === player);
         }
 
         function checkDraw(board) {
@@ -196,6 +201,7 @@
             for(let i=0; i<9; i++) { if(board[i] === "") emptyIndices.push(i); }
             if (emptyIndices.length === 0) return -1;
 
+            // कठिन और मध्यम मोड का स्मार्ट ब्लॉक/विन लॉजिक
             if (difficulty === "hard" || (difficulty === "medium" && Math.random() > 0.3)) {
                 for (let i of emptyIndices) {
                     let cp = [...board]; cp[i] = "O";
@@ -207,16 +213,7 @@
                 }
             }
 
+            // सेंटर या कोनों पर कब्ज़ा करने का सिंपल लॉजिक (बिना फ़िल्टर के)
             if (difficulty === "medium" || difficulty === "hard") {
                 if (board[4] === "") return 4;
-                const corners = [0, 2, 6, 8].filter(i => board[i] === "");
-                if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
-            }
-
-            return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-        }
-
-        function resetGame() {
-            boardState = ["", "", "", "", "", "", "", "", ""];
-            isGameActive = true;
-            statusText.innerText = "आपकी चाल (X)";
+                const corners =;
