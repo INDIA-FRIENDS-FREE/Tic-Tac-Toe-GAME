@@ -9,6 +9,14 @@
 <body>
 
     <div class="game-container">
+        <!-- थीम बदलने वाले बटन्स -->
+        <div class="theme-selector">
+            <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
+            <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
+            <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
+            <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
+        </div>
+
         <h1>कट-गोला गेम (Tic-Tac-Toe)</h1>
         
         <!-- स्कोरबोर्ड सेक्शन -->
@@ -43,9 +51,9 @@
             <div class="cell" data-index="8"></div>
         </div>
 
-        <!-- बटन्स -->
+        <!-- कंट्रोल बटन्स -->
         <div class="btn-container">
-            <button id="reset-round-btn">राउंड रीसेट करें</button>
+            <button id="reset-round-btn" class="main-action-btn">राउंड रीसेट करें</button>
             <button id="reset-all-btn" class="danger-btn">पूरा मैच रीसेट करें</button>
         </div>
     </div>

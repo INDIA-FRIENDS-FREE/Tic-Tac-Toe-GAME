@@ -1,12 +1,69 @@
+ /* डिफ़ॉल्ट लाइट (White) थीम के कलर्स */
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg: #ffffff;
+    --text-color: #333333;
+    --sub-text: #65676b;
+    --board-cell-bg: #f0f2f5;
+    --board-cell-hover: #e4e6eb;
+    --primary-btn: #1877f2;
+    --primary-btn-hover: #145dbf;
+    --scoreboard-bg: #f7f9fa;
+    --scoreboard-border: #e4e6eb;
+}
+
+/* 1. Black (Dark) थीम */
+[data-theme="black"] {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --sub-text: #a0a0a0;
+    --board-cell-bg: #2d2d2d;
+    --board-cell-hover: #3d3d3d;
+    --primary-btn: #bb86fc;
+    --primary-btn-hover: #9965db;
+    --scoreboard-bg: #252525;
+    --scoreboard-border: #333333;
+}
+
+/* 2. Halkaa Green (Mint) थीम */
+[data-theme="green"] {
+    --bg-color: #e8f5e9;
+    --container-bg: #ffffff;
+    --text-color: #1b5e20;
+    --sub-text: #4caf50;
+    --board-cell-bg: #c8e6c9;
+    --board-cell-hover: #a5d6a7;
+    --primary-btn: #2e7d32;
+    --primary-btn-hover: #1b5e20;
+    --scoreboard-bg: #f1f8e9;
+    --scoreboard-border: #c8e6c9;
+}
+
+/* 3. Begni (Purple) थीम */
+[data-theme="purple"] {
+    --bg-color: #f3e5f5;
+    --container-bg: #ffffff;
+    --text-color: #4a148c;
+    --sub-text: #7b1fa2;
+    --board-cell-bg: #e1bee7;
+    --board-cell-hover: #d1c4e9;
+    --primary-btn: #6a1b9a;
+    --primary-btn-hover: #4a148c;
+    --scoreboard-bg: #f3e5f5;
+    --scoreboard-border: #e1bee7;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
-    background-color: #f0f2f5;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,52 +71,74 @@ body {
 }
 
 .game-container {
-    background: white;
+    background: var(--container-bg);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     text-align: center;
     max-width: 400px;
     width: 100%;
+    position: relative;
 }
 
+/* थीम बटन लेआउट */
+.theme-selector {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.theme-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    flex: none;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+.white-btn { background-color: #ffffff; border-color: #ccc; }
+.black-btn { background-color: #222222; }
+.green-btn { background-color: #81c784; }
+.purple-btn { background-color: #ba68c8; }
+
 h1 {
-    color: #333;
+    color: var(--text-color);
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* स्कोरबोर्ड की स्टाइलिंग */
 .scoreboard {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f7f9fa;
+    background: var(--scoreboard-bg);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
-    border: 1px solid #e4e6eb;
-}
-
-.score-box {
-    display: flex;
-    flex-direction: column;
+    border: 1px solid var(--scoreboard-border);
 }
 
 .label {
     font-size: 14px;
-    color: #65676b;
+    color: var(--sub-text);
     font-weight: bold;
 }
 
 .score {
     font-size: 28px;
     font-weight: bold;
-    color: #1877f2;
+    color: var(--primary-btn);
 }
 
 .target-box {
-    background: #e7f3ff;
+    background: var(--bg-color);
     padding: 5px 10px;
     border-radius: 5px;
 }
@@ -67,25 +146,24 @@ h1 {
 .target-title {
     font-size: 11px;
     display: block;
-    color: #1877f2;
+    color: var(--primary-btn);
     font-weight: bold;
 }
 
 .target-num {
     font-size: 18px;
     font-weight: bold;
-    color: #1877f2;
+    color: var(--primary-btn);
 }
 
 .status {
     font-size: 18px;
     font-weight: 600;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 15px;
     height: 27px;
 }
 
-/* 3x3 ग्रिड बोर्ड */
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -94,7 +172,8 @@ h1 {
 }
 
 .cell {
-    background-color: #f0f2f5;
+    background-color: var(--board-cell-bg);
+    color: var(--text-color);
     aspect-ratio: 1;
     border-radius: 8px;
     display: flex;
@@ -103,29 +182,22 @@ h1 {
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
     user-select: none;
 }
 
 .cell:hover {
-    background-color: #e4e6eb;
+    background-color: var(--board-cell-hover);
 }
 
-.cell.x {
-    color: #28a745;
-}
+.cell.x { color: #28a745; }
+.cell.o { color: #dc3545; }
 
-.cell.o {
-    color: #dc3545;
-}
-
-/* कंट्रोल बटन्स */
 .btn-container {
     display: flex;
     gap: 10px;
 }
 
-button {
+.main-action-btn {
     flex: 1;
     padding: 12px;
     font-size: 14px;
@@ -133,20 +205,26 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    background-color: #1877f2;
+    background-color: var(--primary-btn);
     color: white;
-    transition: background 0.2s;
 }
 
-button:hover {
-    background-color: #145dbf;
+.main-action-btn:hover {
+    background-color: var(--primary-btn-hover);
 }
 
 .danger-btn {
-    background-color: #e4e6eb;
-    color: #333;
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--board-cell-hover);
+    color: var(--text-color);
 }
 
 .danger-btn:hover {
-    background-color: #d8dadf;
+    filter: brightness(0.9);
 }
