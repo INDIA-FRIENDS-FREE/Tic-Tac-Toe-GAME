@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कट-गोला गेम (Tic-Tac-Toe Fixed)</title>
     <style>
-        /* डिफ़ॉルト डार्क ब्लू थीम */
+        /* डिफ़ॉल्ट डार्क ब्लू थीम */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -192,11 +192,7 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        // सारे नंबर एकदम सही से डाल दिए हैं, अब बिल्कुल क्रैश नहीं होगा!
-        const winningConditions = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // आड़ी लाइनें (Rows)
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // खड़ी लाइनें (Columns)
-            [0, 4, 8], [2, 4, 6]             // तिरछी लाइनें (Diagonals)
+        const winningConditions = [, [3, 4, 5], [6, 7, 8], , [1, 4, 7], [2, 5, 8], , [2, 4, 6]             
         ];
 
         function changeTheme() {
@@ -212,9 +208,20 @@
             }
         }
 
+        function checkWin(board, player) {
+            return winningConditions.some(condition => {
+                return condition.every(index => board[index] === player);
+            });
+        }
+
+        function checkDraw(board) {
+            return board.every(cell => cell !== "");
+        }
+
         function makeMove(cell, index) {
             if (boardState[index] !== "" || !isGameActive) return;
 
+            // खिलाड़ी (X) की चाल
             boardState[index] = "X";
             cell.innerText = "X";
             cell.classList.add("X");
@@ -225,49 +232,41 @@
                 return;
             }
 
-            if (!boardState.includes("")) {
-                statusText.innerText = "🤝 मैच ड्रॉ हो गया!";
+            if (checkDraw(boardState)) {
+                statusText.innerText = "🤝 गेम ड्रॉ हो गया!";
                 isGameActive = false;
                 return;
             }
 
-            computerMove();
-        }
+            // कंप्यूटर (O) की चाल
+            statusText.innerText = "कंप्यूटर सोच रहा है...";
+            isGameActive = false; // कंप्यूटर की चाल के दौरान क्लिक रोकें
 
-        function computerMove() {
-            const level = difficultySelect.value;
-            let move = null;
+            setTimeout(() => {
+                const computerIndex = getBestMove(boardState, difficultySelect.value);
+                if (computerIndex !== -1) {
+                    boardState[computerIndex] = "O";
+                    cells[computerIndex].innerText = "O";
+                    cells[computerIndex].classList.add("O");
 
-            if (level === "easy") {
-                move = getRandomMove();
-            } else if (level === "medium") {
-                move = findImmediateMove("O") || findImmediateMove("X") || getRandomMove();
-            } else if (level === "hard") {
-                let bestScore = Infinity;
-                for (let i = 0; i < 9; i++) {
-                    if (boardState[i] === "") {
-                        boardState[i] = "O";
-                        let score = minimax(boardState, 0, true);
-                        boardState[i] = "";
-                        if (score < bestScore) {
-                            bestScore = score;
-                            move = i;
-                        }
+                    if (checkWin(boardState, "O")) {
+                        statusText.innerText = "🤖 कंप्यूटर जीत गया! बेहतर प्रयास करें।";
+                        isGameActive = false;
+                        return;
+                    }
+
+                    if (checkDraw(boardState)) {
+                        statusText.innerText = "🤝 गेम ड्रॉ हो गया!";
+                        isGameActive = false;
+                        return;
                     }
                 }
-            }
+                isGameActive = true;
+                statusText.innerText = "आपकी चाल (X)";
+            }, 500);
+        }
 
-            if (move !== null && move !== undefined) {
-                boardState[move] = "O";
-                cells[move].innerText = "O";
-                cells[move].classList.add("O");
-
-                if (checkWin(boardState, "O")) {
-                    statusText.innerText = "😢 कंप्यूटर जीत गया! भाई से कहो फिर खेले।";
-                    isGameActive = false;
-                    return;
-                }
-
-                if (!boardState.includes("")) {
-                    statusText.innerText = "🤝 मैच ड्रॉ हो गया!";
-                    isGameActive = false;
+        // कंप्यूटर का लॉजिक (Easy, Medium, Hard)
+        function getBestMove(board, difficulty) {
+            const emptyIndices = board.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
+            
