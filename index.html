@@ -1,16 +1,20 @@
- <!-- यह आपके स्क्रीन पर दिखेगा -->
-<div style="text-align:center; font-family:sans-serif; margin-bottom:10px;">
-    <span style="height:10px; width:10px; background-color:#4caf50; border-radius:50%; display:inline-block; margin-right:5px; animate: blink 1s infinite;"></span>
-    <span style="color:#555; font-weight:bold;">लाइव खिलाड़ी: <span id="live-users" style="color:#4caf50;">154</span> ऑनलाइन</span>
+ <!-- इसे अपने मुख्य हेडिंग (H1) के ठीक नीचे पेस्ट करो -->
+<div style="text-align:center; font-family:Arial, sans-serif; margin: 15px auto; padding: 5px; background: #e8f5e9; border-radius: 5px; display: block; width: fit-content; border: 1px solid #c8e6c9; position: relative; z-index: 9999;">
+    <span style="height:10px; width:10px; background-color:#4caf50; border-radius:50%; display:inline-block; margin-right:5px;"></span>
+    <span style="color:#2e7d32; font-weight:bold; font-size: 16px;">लाइव खिलाड़ी: <span id="live-users">154</span> ऑनलाइन</span>
 </div>
 
 <script>
 function updateLiveUsers() {
-    // यह हर बार 140 से 180 के बीच एक रैंडम नंबर जनरेट करेगा
-    const baseUsers = Math.floor(Math.random() * (180 - 140 + 1)) + 140;
-    document.getElementById("live-users").innerText = baseUsers;
+    // यह हर बार 145 से 175 के बीच रैंडम नंबर दिखाएगा
+    const baseUsers = Math.floor(Math.random() * (175 - 145 + 1)) + 145;
+    const element = document.getElementById("live-users");
+    if(element) {
+        element.innerText = baseUsers;
+    }
 }
-
-// हर 4 सेकंड (4000 मिलीसेकंड) में नंबर अपने आप बदलेगा ताकि असली लगे
-setInterval(updateLiveUsers, 4000);
+// हर 3 सेकंड में नंबर बदलेगा
+setInterval(updateLiveUsers, 3000);
+// पहली बार पेज खुलते ही तुरंत रन करने के लिए
+updateLiveUsers();
 </script>
