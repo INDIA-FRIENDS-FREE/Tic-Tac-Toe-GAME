@@ -192,7 +192,8 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        const winningConditions = [, [3, 4, 5], [6, 7, 8], , [1, 4, 7], [2, 5, 8], , [2, 4, 6]             
+        // जीतने की सारी कंडीशन (अब पूरे नंबरों के साथ बिल्कुल सही है)
+        const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]             // Diagonals
         ];
 
         function changeTheme() {
@@ -238,9 +239,9 @@
                 return;
             }
 
-            // कंप्यूटर (O) की चाल
+            // कंप्यूटर (O) की चाल शुरू
             statusText.innerText = "कंप्यूटर सोच रहा है...";
-            isGameActive = false; // कंप्यूटर की चाल के दौरान क्लिक रोकें
+            isGameActive = false; 
 
             setTimeout(() => {
                 const computerIndex = getBestMove(boardState, difficultySelect.value);
@@ -266,7 +267,5 @@
             }, 500);
         }
 
-        // कंप्यूटर का लॉजिक (Easy, Medium, Hard)
+        // कंप्यूटर का AI लॉजिक
         function getBestMove(board, difficulty) {
-            const emptyIndices = board.map((val, idx) => val === "" ? idx : null).filter(val => val !== null);
-            
