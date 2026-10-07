@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>कट-गोला गेम (Tic-Tac-Toe Pro)</title>
+    <title>कट-गोला गेम (Tic-Tac-Toe Ultimate)</title>
     <style>
-        /* डिफ़ॉल्ट डार्क ब्लू थीम (शुरुआत के लिए) */
+        /* डिफ़ॉल्ट डार्क ब्लू थीम */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -19,31 +19,33 @@
             transition: all 0.3s ease;
         }
 
-        /* 🖤 ब्लैक थीम स्टाइल */
+        /* 🖤 ब्लैक थीम */
         body.theme-black {
             background: linear-gradient(135deg, #121212, #2c3e50);
             color: #ffffff;
         }
-        body.theme-black .cell { background: #1e1e1e; border: 2px solid #333; }
+        body.theme-black .cell { background: #1e1e1e; border: 2px solid #333; color: #fff; }
         body.theme-black .cell:hover { background: #2a2a2a; }
 
-        /* 🤍 व्हाइट थीम स्टाइल */
+        /* 🤍 व्हाइट थीम */
         body.theme-white {
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             color: #333333;
         }
-        body.theme-white .cell { background: #ffffff; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body.theme-white .cell { background: #ffffff; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333; }
         body.theme-white .cell:hover { background: #f0f0f0; }
         body.theme-white .status { background: rgba(0, 0, 0, 0.05); color: #333; }
+        body.theme-white label { color: #333; }
 
-        /* 💚 हल्का ग्रीन थीम स्टाइल */
+        /* 💚 हल्का ग्रीन थीम */
         body.theme-green {
             background: linear-gradient(135deg, #d4fc79, #96e6a1);
             color: #1e4620;
         }
-        body.theme-green .cell { background: #ffffff; border: 1px solid #a8e6cf; }
+        body.theme-green .cell { background: #ffffff; border: 1px solid #a8e6cf; color: #333; }
         body.theme-green .cell:hover { background: #f1fcf6; }
         body.theme-green .status { background: rgba(255, 255, 255, 0.4); color: #1e4620; }
+        body.theme-green label { color: #1e4620; }
 
         h1 {
             margin-bottom: 5px;
@@ -119,7 +121,6 @@
         .cell.X { color: #ff4757; }
         .cell.O { color: #2ed573; }
         
-        /* थीम्स के हिसाब से X और O के रंग थोड़े एडजस्ट करना */
         body.theme-black .cell.X { color: #ff4757; text-shadow: 0 0 10px #ff4757; }
         body.theme-black .cell.O { color: #2ed573; text-shadow: 0 0 10px #2ed573; }
 
@@ -146,7 +147,6 @@
 
     <h1>❌ कट-गोला गेम ⭕</h1>
     
-    <!-- कंट्रोल पैनल (लेवल और थीम दोनों के लिए) -->
     <div class="controls-container">
         <div class="control-group">
             <label for="difficulty">लेवल चुनें:</label>
@@ -192,16 +192,17 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]              // Diagonals
+        // यहाँ सारे नंबर बिल्कुल सही से भर दिए हैं!
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
         ];
 
-        // थीम बदलने का फंक्शन
         function changeTheme() {
             const selectedTheme = themeSelect.value;
-            // पहले की सारी थीम क्लासेस हटाएँ
             document.body.classList.remove('theme-black', 'theme-white', 'theme-green');
             
-            // चुनी हुई थीम जोड़ें
             if (selectedTheme === 'black') {
                 document.body.classList.add('theme-black');
             } else if (selectedTheme === 'white') {
@@ -262,7 +263,7 @@
                 cells[move].classList.add("O");
 
                 if (checkWin(boardState, "O")) {
-                    statusText.innerText = "😢 कंप्यूटर जीत गया! फिर से कोशिश करें।";
+                    statusText.innerText = "😢 कंप्यूटर जीत गया! भाई से कहो फिर खेले।";
                     isGameActive = false;
                     return;
                 }
@@ -270,3 +271,6 @@
                 if (!boardState.includes("")) {
                     statusText.innerText = "🤝 मैच ड्रॉ हो गया!";
                     isGameActive = false;
+                    return;
+                }
+            }
