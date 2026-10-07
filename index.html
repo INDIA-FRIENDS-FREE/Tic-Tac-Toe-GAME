@@ -9,9 +9,9 @@
 <body>
 
     <div class="game-container">
-        <!-- टॉप बार: इसमें लेवल और थीम बटन्स दोनों साथ में दिखेंगे -->
+        <!-- टॉप बार: लेवल, साउंड और थीम बटन्स -->
         <div class="top-bar">
-            <!-- लेवल सेलेक्ट बटन (ड्रॉपडाउन) -->
+            <!-- लेवल सेलेक्ट बटन -->
             <div class="level-container">
                 <label for="difficulty-select" class="level-label">लेवल चुनें:</label>
                 <select id="difficulty-select" class="level-dropdown">
@@ -21,18 +21,24 @@
                 </select>
             </div>
 
-            <!-- थीम बटन्स (गोल आकार के रंग-बिरंगे बटन्स) -->
-            <div class="theme-selector">
-                <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
-                <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
-                <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
-                <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
+            <!-- राइट साइड कंट्रोल्स: साउंड और थीम्स -->
+            <div class="right-controls">
+                <!-- साउंड ऑन/ऑफ बटन (छोटा स्पीकर) -->
+                <button id="sound-toggle-btn" class="sound-btn" title="साउंड चालू/बंद करें">🔊</button>
+
+                <!-- थीम बटन्स -->
+                <div class="theme-selector">
+                    <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
+                    <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
+                    <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
+                    <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
+                </div>
             </div>
         </div>
 
         <h1>कट-गोला गेम (Tic-Tac-Toe)</h1>
         
-        <!-- स्कोरボード सेक्शन (जीत-हार ट्रैक करने के लिए) -->
+        <!-- स्कोरबोर्ड सेक्शन -->
         <div class="scoreboard">
             <div class="score-box">
                 <span class="label">आप (X)</span>
