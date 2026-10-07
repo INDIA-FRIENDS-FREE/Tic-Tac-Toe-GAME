@@ -9,19 +9,19 @@
 <body>
 
     <div class="game-container">
-        <!-- टॉप बार: लेवल और थीम सेलेक्टर -->
+        <!-- टॉप बार: इसमें लेवल और थीम बटन्स दोनों साथ में दिखेंगे -->
         <div class="top-bar">
             <!-- लेवल सेलेक्ट बटन (ड्रॉपडाउन) -->
             <div class="level-container">
-                <label for="difficulty-select" class="level-label">लेवल:</label>
+                <label for="difficulty-select" class="level-label">लेवल चुनें:</label>
                 <select id="difficulty-select" class="level-dropdown">
                     <option value="easy">सरल (Easy)</option>
                     <option value="medium" selected>मध्यम (Medium)</option>
-                    <option value="hard">कठिन (Hard)</option>
+                    <option value="hard">कठिन (Hard) 🔥</option>
                 </select>
             </div>
 
-            <!-- थीम बटन्स -->
+            <!-- थीम बटन्स (गोल आकार के रंग-बिरंगे बटन्स) -->
             <div class="theme-selector">
                 <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
                 <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
@@ -32,7 +32,7 @@
 
         <h1>कट-गोला गेम (Tic-Tac-Toe)</h1>
         
-        <!-- स्कोरबोर्ड सेक्शन -->
+        <!-- स्कोरボード सेक्शन (जीत-हार ट्रैक करने के लिए) -->
         <div class="scoreboard">
             <div class="score-box">
                 <span class="label">आप (X)</span>
@@ -51,7 +51,7 @@
         <!-- स्टेटस मैसेज -->
         <div id="status-message" class="status">आपकी चाल (X)</div>
 
-        <!-- गेम बोर्ड -->
+        <!-- गेम बोर्ड (3x3 ग्रिड) -->
         <div class="board" id="game-board">
             <div class="cell" data-index="0"></div>
             <div class="cell" data-index="1"></div>
