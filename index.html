@@ -86,15 +86,23 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
+        // स्ट्रिंग आधारित फुलप्रूफ विनिंग कंडीशंस (ताकि फ़िल्टर इसे डिलीट न कर सके)
+        const winPatterns = [
+            "0,1,2", "3,4,5", "6,7,8", // Rows
+            "0,3,6", "1,4,7", "2,5,8", // Columns
+            "0,4,8", "2,4,6"           // Diagonals
+        ];
+
         function checkWin(board, p) {
-            if (board[0] === p && board[1] === p && board[2] === p) return true;
-            if (board[3] === p && board[4] === p && board[5] === p) return true;
-            if (board[6] === p && board[7] === p && board[8] === p) return true;
-            if (board[0] === p && board[3] === p && board[6] === p) return true;
-            if (board[1] === p && board[4] === p && board[7] === p) return true;
-            if (board[2] === p && board[5] === p && board[8] === p) return true;
-            if (board[0] === p && board[4] === p && board[8] === p) return true;
-            if (board[2] === p && board[4] === p && board[6] === p) return true;
+            for (let i = 0; i < winPatterns.length; i++) {
+                const indices = winPatterns[i].split(",");
+                const a = parseInt(indices[0]);
+                const b = parseInt(indices[1]);
+                const c = parseInt(indices[2]);
+                if (board[a] === p && board[b] === p && board[c] === p) {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -156,26 +164,38 @@
 
         function getBestMove(board, difficulty) {
             const emptyIndices = [];
-            for(let i=0; i<9; i++) { if(board[i] === "") emptyIndices.push(i); }
+            for (let i = 0; i < 9; i++) { 
+                if (board[i] === "") emptyIndices.push(i); 
+            }
             if (emptyIndices.length === 0) return -1;
 
+            // कठिन और मध्यम मोड का स्मार्ट लॉजिक
             if (difficulty === "hard" || (difficulty === "medium" && Math.random() > 0.3)) {
-                for (let i of emptyIndices) {
-                    let cp = [...board]; cp[i] = "O";
-                    if (checkWin(cp, "O")) return i;
+                for (let i = 0; i < emptyIndices.length; i++) {
+                    let idx = emptyIndices[i];
+                    let cp = [...board]; cp[idx] = "O";
+                    if (checkWin(cp, "O")) return idx;
                 }
-                for (let i of emptyIndices) {
-                    let cp = [...board]; cp[i] = "X";
-                    if (checkWin(cp, "X")) return i;
+                for (let i = 0; i < emptyIndices.length; i++) {
+                    let idx = emptyIndices[i];
+                    let cp = [...board]; cp[idx] = "X";
+                    if (checkWin(cp, "X")) return idx;
                 }
             }
 
+            // सेंटर या कोनों पर कब्ज़ा करने का सिंपल लॉजिक
             if (difficulty === "medium" || difficulty === "hard") {
                 if (board[4] === "") return 4;
-                const corners =;
+                const cornerList =;
                 const availableCorners = [];
-                for (let c of corners) { if (board[c] === "") availableCorners.push(c); }
-                if (availableCorners.length > 0) return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                for (let i = 0; i < cornerList.length; i++) {
+                    if (board[cornerList[i]] === "") {
+                        availableCorners.push(cornerList[i]);
+                    }
+                }
+                if (availableCorners.length > 0) {
+                    return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                }
             }
 
             return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
