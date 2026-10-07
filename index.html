@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कट-गोला गेम (Tic-Tac-Toe Pro)</title>
     <style>
+        /* डिफ़ॉल्ट डार्क ब्लू थीम (शुरुआत के लिए) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -15,26 +16,67 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            transition: all 0.3s ease;
         }
+
+        /* 🖤 ब्लैक थीम स्टाइल */
+        body.theme-black {
+            background: linear-gradient(135deg, #121212, #2c3e50);
+            color: #ffffff;
+        }
+        body.theme-black .cell { background: #1e1e1e; border: 2px solid #333; }
+        body.theme-black .cell:hover { background: #2a2a2a; }
+
+        /* 🤍 व्हाइट थीम स्टाइल */
+        body.theme-white {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333333;
+        }
+        body.theme-white .cell { background: #ffffff; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body.theme-white .cell:hover { background: #f0f0f0; }
+        body.theme-white .status { background: rgba(0, 0, 0, 0.05); color: #333; }
+
+        /* 💚 हल्का ग्रीन थीम स्टाइल */
+        body.theme-green {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            color: #1e4620;
+        }
+        body.theme-green .cell { background: #ffffff; border: 1px solid #a8e6cf; }
+        body.theme-green .cell:hover { background: #f1fcf6; }
+        body.theme-green .status { background: rgba(255, 255, 255, 0.4); color: #1e4620; }
+
         h1 {
             margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        .controls {
-            margin-bottom: 15px;
+        .controls-container {
             display: flex;
-            gap: 10px;
-            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+        body.theme-white .controls-container { background: rgba(0, 0, 0, 0.05); }
+        body.theme-green .controls-container { background: rgba(255, 255, 255, 0.3); }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
         select {
-            padding: 8px 15px;
-            font-size: 1rem;
-            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 0.95rem;
+            border-radius: 8px;
             border: none;
             font-weight: bold;
             background: #ffffff;
-            color: #1e3c72;
+            color: #333;
             cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .status {
             font-size: 1.2rem;
@@ -52,8 +94,11 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 10px;
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
+        body.theme-white .board { background: rgba(0, 0, 0, 0.05); }
+        body.theme-green .board { background: rgba(255, 255, 255, 0.2); }
+
         .cell {
             background: #ffffff;
             border: none;
@@ -69,11 +114,15 @@
             height: 100px;
         }
         .cell:hover {
-            background: #e0e0e0;
             transform: scale(1.05);
         }
         .cell.X { color: #ff4757; }
         .cell.O { color: #2ed573; }
+        
+        /* थीम्स के हिसाब से X और O के रंग थोड़े एडजस्ट करना */
+        body.theme-black .cell.X { color: #ff4757; text-shadow: 0 0 10px #ff4757; }
+        body.theme-black .cell.O { color: #2ed573; text-shadow: 0 0 10px #2ed573; }
+
         .btn {
             margin-top: 25px;
             padding: 12px 30px;
@@ -97,14 +146,26 @@
 
     <h1>❌ कट-गोला गेम ⭕</h1>
     
-    <!-- स्टेज (Difficulty Level) चुनने का विकल्प -->
-    <div class="controls">
-        <label for="difficulty">लेवल चुनें: </label>
-        <select id="difficulty" onchange="resetGame()">
-            <option value="easy">सरल (Easy)</option>
-            <option value="medium">मध्यम (Medium)</option>
-            <option value="hard" selected>कठिन (Hard) 🔥</option>
-        </select>
+    <!-- कंट्रोल पैनल (लेवल और थीम दोनों के लिए) -->
+    <div class="controls-container">
+        <div class="control-group">
+            <label for="difficulty">लेवल चुनें:</label>
+            <select id="difficulty" onchange="resetGame()">
+                <option value="easy">सरल (Easy)</option>
+                <option value="medium">मध्यम (Medium)</option>
+                <option value="hard" selected>कठिन (Hard) 🔥</option>
+            </select>
+        </div>
+        
+        <div class="control-group">
+            <label for="themeSelect">थीम बदलें:</label>
+            <select id="themeSelect" onchange="changeTheme()">
+                <option value="default">डिफ़ॉल्ट ब्लू</option>
+                <option value="black">ब्लैक (Dark)</option>
+                <option value="white">व्हाइट (Light)</option>
+                <option value="green">हल्का ग्रीन</option>
+            </select>
+        </div>
     </div>
 
     <div class="status" id="statusText">आपकी चाल (X)</div>
@@ -129,12 +190,26 @@
         const statusText = document.getElementById("statusText");
         const cells = document.querySelectorAll(".cell");
         const difficultySelect = document.getElementById("difficulty");
+        const themeSelect = document.getElementById("themeSelect");
 
-        const winningConditions = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6]             // Diagonals
+        const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]              // Diagonals
         ];
+
+        // थीम बदलने का फंक्शन
+        function changeTheme() {
+            const selectedTheme = themeSelect.value;
+            // पहले की सारी थीम क्लासेस हटाएँ
+            document.body.classList.remove('theme-black', 'theme-white', 'theme-green');
+            
+            // चुनी हुई थीम जोड़ें
+            if (selectedTheme === 'black') {
+                document.body.classList.add('theme-black');
+            } else if (selectedTheme === 'white') {
+                document.body.classList.add('theme-white');
+            } else if (selectedTheme === 'green') {
+                document.body.classList.add('theme-green');
+            }
+        }
 
         function makeMove(cell, index) {
             if (boardState[index] !== "" || !isGameActive) return;
@@ -155,7 +230,6 @@
                 return;
             }
 
-            // प्लेयर की चाल के तुरंत बाद कंप्यूटर चलेगा
             computerMove();
         }
 
@@ -164,13 +238,10 @@
             let move = null;
 
             if (level === "easy") {
-                // बिल्कुल रैंडम चाल
                 move = getRandomMove();
             } else if (level === "medium") {
-                // जीतने या ब्लॉक करने की कोशिश, वरना रैंडम
                 move = findImmediateMove("O") || findImmediateMove("X") || getRandomMove();
             } else if (level === "hard") {
-                // नामुमकिन मोड - Minimax Algorithm
                 let bestScore = Infinity;
                 for (let i = 0; i < 9; i++) {
                     if (boardState[i] === "") {
@@ -199,79 +270,3 @@
                 if (!boardState.includes("")) {
                     statusText.innerText = "🤝 मैच ड्रॉ हो गया!";
                     isGameActive = false;
-                    return;
-                }
-            }
-            statusText.innerText = "आपकी चाल (X)";
-        }
-
-        // मीडियम मोड के लिए तुरंत ब्लॉक या विन ढूंढना
-        function findImmediateMove(player) {
-            for (let condition of winningConditions) {
-                let count = 0;
-                let emptyIndex = null;
-                for (let index of condition) {
-                    if (boardState[index] === player) count++;
-                    else if (boardState[index] === "") emptyIndex = index;
-                }
-                if (count === 2 && emptyIndex !== null) return emptyIndex;
-            }
-            return null;
-        }
-
-        function getRandomMove() {
-            let availableMoves = [];
-            boardState.forEach((val, idx) => { if (val === "") availableMoves.push(idx); });
-            if (availableMoves.length === 0) return null;
-            return availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        }
-
-        function checkWin(board, player) {
-            return winningConditions.some(condition => {
-                return condition.every(index => board[index] === player);
-            });
-        }
-
-        // अनबीटेबल AI के लिए मिनीमैक्स एल्गोरिथम
-        function minimax(board, depth, isMaximizing) {
-            if (checkWin(board, "X")) return 10 - depth;
-            if (checkWin(board, "O")) return depth - 10;
-            if (!board.includes("")) return 0;
-
-            if (isMaximizing) {
-                let bestScore = -Infinity;
-                for (let i = 0; i < 9; i++) {
-                    if (board[i] === "") {
-                        board[i] = "X";
-                        let score = minimax(board, depth + 1, false);
-                        board[i] = "";
-                        bestScore = Math.max(score, bestScore);
-                    }
-                }
-                return bestScore;
-            } else {
-                let bestScore = Infinity;
-                for (let i = 0; i < 9; i++) {
-                    if (board[i] === "") {
-                        board[i] = "O";
-                        let score = minimax(board, depth + 1, true);
-                        board[i] = "";
-                        bestScore = Math.min(score, bestScore);
-                    }
-                }
-                return bestScore;
-            }
-        }
-
-        function resetGame() {
-            boardState = ["", "", "", "", "", "", "", "", ""];
-            isGameActive = true;
-            statusText.innerText = "आपकी चाल (X)";
-            cells.forEach(cell => {
-                cell.innerText = "";
-                cell.classList.remove("X", "O");
-            });
-        }
-    </script>
-</body>
-</html>
