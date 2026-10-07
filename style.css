@@ -120,18 +120,17 @@ body {
     outline: none;
 }
 
-/* राइट कंट्रोल्स लेआउट */
 .right-controls {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* छोटे स्पीकर बटन की स्टाइलिंग */
+/* साउंड बटन की स्टाइल */
 .sound-btn {
     background: transparent;
     border: none;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     padding: 4px;
     border-radius: 6px;
