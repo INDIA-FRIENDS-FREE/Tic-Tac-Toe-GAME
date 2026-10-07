@@ -1,82 +1,16 @@
- <!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe Pro (Target 5)</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+ <!-- यह आपके स्क्रीन पर दिखेगा -->
+<div style="text-align:center; font-family:sans-serif; margin-bottom:10px;">
+    <span style="height:10px; width:10px; background-color:#4caf50; border-radius:50%; display:inline-block; margin-right:5px; animate: blink 1s infinite;"></span>
+    <span style="color:#555; font-weight:bold;">लाइव खिलाड़ी: <span id="live-users" style="color:#4caf50;">154</span> ऑनलाइन</span>
+</div>
 
-    <div class="game-container">
-        <!-- टॉप बार: लेवल, साउंड और थीम बटन्स -->
-        <div class="top-bar">
-            <!-- लेवल सेलेक्ट बटन -->
-            <div class="level-container">
-                <label for="difficulty-select" class="level-label">लेवल चुनें:</label>
-                <select id="difficulty-select" class="level-dropdown">
-                    <option value="easy">सरल (Easy)</option>
-                    <option value="medium" selected>मध्यम (Medium)</option>
-                    <option value="hard">कठिन (Hard) 🔥</option>
-                </select>
-            </div>
+<script>
+function updateLiveUsers() {
+    // यह हर बार 140 से 180 के बीच एक रैंडम नंबर जनरेट करेगा
+    const baseUsers = Math.floor(Math.random() * (180 - 140 + 1)) + 140;
+    document.getElementById("live-users").innerText = baseUsers;
+}
 
-            <!-- राइट साइड कंट्रोल्स -->
-            <div class="right-controls">
-                <!-- साउंड ऑन/ऑफ बटन (छोटा स्पीकर) -->
-                <button id="sound-toggle-btn" class="sound-btn" title="साउंड चालू/बंद करें">🔊</button>
-
-                <!-- थीम बटन्स -->
-                <div class="theme-selector">
-                    <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
-                    <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
-                    <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
-                    <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
-                </div>
-            </div>
-        </div>
-
-        <h1>कट-गोला गेम (Tic-Tac-Toe)</h1>
-        
-        <!-- स्कोरबोर्ड सेक्शन -->
-        <div class="scoreboard">
-            <div class="score-box">
-                <span class="label">आप (X)</span>
-                <span id="player-score" class="score">0</span>
-            </div>
-            <div class="target-box">
-                <span class="target-title">टारगेट स्कोर</span>
-                <span class="target-num">5</span>
-            </div>
-            <div class="score-box">
-                <span class="label">कंप्यूटर (O)</span>
-                <span id="computer-score" class="score">0</span>
-            </div>
-        </div>
-
-        <!-- स्टेटस मैसेज -->
-        <div id="status-message" class="status">आपकी चाल (X)</div>
-
-        <!-- गेम बोर्ड (3x3 ग्रिड) -->
-        <div class="board" id="game-board">
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
-        </div>
-
-        <!-- कंट्रोल बटन्स -->
-        <div class="btn-container">
-            <button id="reset-round-btn" class="main-action-btn">राउंड रीसेट करें</button>
-            <button id="reset-all-btn" class="danger-btn">पूरा मैच रीसेट करें</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+// हर 4 सेकंड (4000 मिलीसेकंड) में नंबर अपने आप बदलेगा ताकि असली लगे
+setInterval(updateLiveUsers, 4000);
+</script>
