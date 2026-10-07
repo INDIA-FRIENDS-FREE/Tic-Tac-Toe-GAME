@@ -17,65 +17,25 @@
             margin: 0;
             transition: all 0.3s ease;
         }
-        body.theme-black {
-            background: linear-gradient(135deg, #121212, #2c3e50);
-            color: #ffffff;
-        }
+        body.theme-black { background: linear-gradient(135deg, #121212, #2c3e50); color: #ffffff; }
         body.theme-black .cell { background: #1e1e1e; border: 2px solid #333; color: #fff; }
         body.theme-black .cell:hover { background: #2a2a2a; }
-
-        body.theme-white {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            color: #333333;
-        }
-        body.theme-white .cell { background: #ffffff; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333; }
+        body.theme-white { background: linear-gradient(135deg, #f5f7fa, #c3cfe2); color: #333333; }
+        body.theme-white .cell { background: #ffffff; border: 1px solid #ccc; color: #333; }
         body.theme-white .cell:hover { background: #f0f0f0; }
-        body.theme-white .status { background: rgba(0, 0, 0, 0.05); color: #333; }
-        body.theme-white label { color: #333; }
-
-        body.theme-green {
-            background: linear-gradient(135deg, #d4fc79, #96e6a1);
-            color: #1e4620;
-        }
+        body.theme-green { background: linear-gradient(135deg, #d4fc79, #96e6a1); color: #1e4620; }
         body.theme-green .cell { background: #ffffff; border: 1px solid #a8e6cf; color: #333; }
-        body.theme-green .cell:hover { background: #f1fcf6; }
-        body.theme-green .status { background: rgba(255, 255, 255, 0.4); color: #1e4620; }
-        body.theme-green label { color: #1e4620; }
-
-        h1 { margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .controls-container {
-            display: flex; gap: 15px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 15px;
-        }
-        body.theme-white .controls-container { background: rgba(0, 0, 0, 0.05); }
-        body.theme-green .controls-container { background: rgba(255, 255, 255, 0.3); }
-
-        .control-group { display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; font-weight: bold; }
-        select { padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: bold; background: #ffffff; color: #333; cursor: pointer; }
+        h1 { margin-bottom: 5px; }
+        .controls-container { display: flex; gap: 15px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 15px; }
+        .control-group { display: flex; flex-direction: column; gap: 5px; font-weight: bold; }
+        select { padding: 6px 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; }
         .status { font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.1); padding: 8px 20px; border-radius: 20px; }
-        
-        .board {
-            display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 10px;
-            background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
-        body.theme-white .board { background: rgba(0, 0, 0, 0.05); }
-        body.theme-green .board { background: rgba(255, 255, 255, 0.2); }
-
-        .cell {
-            background: #ffffff; border: none; border-radius: 10px; font-size: 2.5rem; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; width: 100px; height: 100px;
-        }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 10px; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 15px; }
+        .cell { background: #ffffff; border: none; border-radius: 10px; font-size: 2.5rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100px; height: 100px; }
         .cell:hover { transform: scale(1.05); }
         .cell.X { color: #ff4757; }
         .cell.O { color: #2ed573; }
-        body.theme-black .cell.X { color: #ff4757; text-shadow: 0 0 10px #ff4757; }
-        body.theme-black .cell.O { color: #2ed573; text-shadow: 0 0 10px #2ed573; }
-
-        .btn {
-            margin-top: 25px; padding: 12px 30px; font-size: 1rem; font-weight: bold; background-color: #ffa500;
-            color: white; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); transition: all 0.2s;
-        }
-        .btn:hover { background-color: #ff7f00; transform: translateY(-2px); }
+        .btn { margin-top: 25px; padding: 12px 30px; font-size: 1rem; font-weight: bold; background-color: #ffa500; color: white; border: none; border-radius: 25px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -91,7 +51,6 @@
                 <option value="hard" selected>कठिन (Hard) 🔥</option>
             </select>
         </div>
-        
         <div class="control-group">
             <label for="themeSelect">थीम बदलें:</label>
             <select id="themeSelect" onchange="changeTheme()">
@@ -127,22 +86,21 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        // बिना किसी एरे या कॉमा के 100% फुलप्रूफ विनिंग चेक फंक्शन
         function checkWin(board, p) {
-            if (board[0]===p && board[1]===p && board[2]===p) return true;
-            if (board[3]===p && board[4]===p && board[5]===p) return true;
-            if (board[6]===p && board[7]===p && board[8]===p) return true;
-            if (board[0]===p && board[3]===p && board[6]===p) return true;
-            if (board[1]===p && board[4]===p && board[7]===p) return true;
-            if (board[2]===p && board[5]===p && board[8]===p) return true;
-            if (board[0]===p && board[4]===p && board[8]===p) return true;
-            if (board[2]===p && board[4]===p && board[6]===p) return true;
+            if (board[0] === p && board[1] === p && board[2] === p) return true;
+            if (board[3] === p && board[4] === p && board[5] === p) return true;
+            if (board[6] === p && board[7] === p && board[8] === p) return true;
+            if (board[0] === p && board[3] === p && board[6] === p) return true;
+            if (board[1] === p && board[4] === p && board[7] === p) return true;
+            if (board[2] === p && board[5] === p && board[8] === p) return true;
+            if (board[0] === p && board[4] === p && board[8] === p) return true;
+            if (board[2] === p && board[4] === p && board[6] === p) return true;
             return false;
         }
 
         function changeTheme() {
             const selectedTheme = themeSelect.value;
-            document.body.className = ""; // पुरानी सभी क्लासेस हटा दीं
+            document.body.className = ""; 
             if (selectedTheme === 'black') document.body.classList.add('theme-black');
             if (selectedTheme === 'white') document.body.classList.add('theme-white');
             if (selectedTheme === 'green') document.body.classList.add('theme-green');
@@ -193,7 +151,7 @@
                 }
                 isGameActive = true;
                 statusText.innerText = "आपकी चाल (X)";
-            }, 500);
+            }, 400);
         }
 
         function getBestMove(board, difficulty) {
@@ -201,7 +159,6 @@
             for(let i=0; i<9; i++) { if(board[i] === "") emptyIndices.push(i); }
             if (emptyIndices.length === 0) return -1;
 
-            // कठिन और मध्यम मोड का स्मार्ट ब्लॉक/विन लॉजिक
             if (difficulty === "hard" || (difficulty === "medium" && Math.random() > 0.3)) {
                 for (let i of emptyIndices) {
                     let cp = [...board]; cp[i] = "O";
@@ -213,7 +170,26 @@
                 }
             }
 
-            // सेंटर या कोनों पर कब्ज़ा करने का सिंपल लॉजिक (बिना फ़िल्टर के)
             if (difficulty === "medium" || difficulty === "hard") {
                 if (board[4] === "") return 4;
                 const corners =;
+                const availableCorners = [];
+                for (let c of corners) { if (board[c] === "") availableCorners.push(c); }
+                if (availableCorners.length > 0) return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+            }
+
+            return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
+
+        function resetGame() {
+            boardState = ["", "", "", "", "", "", "", "", ""];
+            isGameActive = true;
+            statusText.innerText = "आपकी चाल (X)";
+            cells.forEach(cell => {
+                cell.innerText = "";
+                cell.classList.remove("X", "O");
+            });
+        }
+    </script>
+</body>
+</html>
