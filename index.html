@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कट-गोला गेम (Tic-Tac-Toe Fixed)</title>
     <style>
-        /* डिफ़ॉल्ट डार्क ब्लू थीम */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -18,8 +17,6 @@
             margin: 0;
             transition: all 0.3s ease;
         }
-
-        /* 🖤 ब्लैक थीम */
         body.theme-black {
             background: linear-gradient(135deg, #121212, #2c3e50);
             color: #ffffff;
@@ -27,7 +24,6 @@
         body.theme-black .cell { background: #1e1e1e; border: 2px solid #333; color: #fff; }
         body.theme-black .cell:hover { background: #2a2a2a; }
 
-        /* 🤍 व्हाइट थीम */
         body.theme-white {
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             color: #333333;
@@ -37,7 +33,6 @@
         body.theme-white .status { background: rgba(0, 0, 0, 0.05); color: #333; }
         body.theme-white label { color: #333; }
 
-        /* 💚 हल्का ग्रीन थीम */
         body.theme-green {
             background: linear-gradient(135deg, #d4fc79, #96e6a1);
             color: #1e4620;
@@ -47,100 +42,40 @@
         body.theme-green .status { background: rgba(255, 255, 255, 0.4); color: #1e4620; }
         body.theme-green label { color: #1e4620; }
 
-        h1 {
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+        h1 { margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         .controls-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 15px;
+            display: flex; gap: 15px; margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 15px;
         }
         body.theme-white .controls-container { background: rgba(0, 0, 0, 0.05); }
         body.theme-green .controls-container { background: rgba(255, 255, 255, 0.3); }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-        select {
-            padding: 6px 12px;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: bold;
-            background: #ffffff;
-            color: #333;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .status {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 20px;
-            border-radius: 20px;
-        }
+        .control-group { display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; font-weight: bold; }
+        select { padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: bold; background: #ffffff; color: #333; cursor: pointer; }
+        .status { font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.1); padding: 8px 20px; border-radius: 20px; }
+        
         .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 10px;
+            background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
         body.theme-white .board { background: rgba(0, 0, 0, 0.05); }
         body.theme-green .board { background: rgba(255, 255, 255, 0.2); }
 
         .cell {
-            background: #ffffff;
-            border: none;
-            border-radius: 10px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            width: 100px;
-            height: 100px;
+            background: #ffffff; border: none; border-radius: 10px; font-size: 2.5rem; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; width: 100px; height: 100px;
         }
-        .cell:hover {
-            transform: scale(1.05);
-        }
+        .cell:hover { transform: scale(1.05); }
         .cell.X { color: #ff4757; }
         .cell.O { color: #2ed573; }
-        
         body.theme-black .cell.X { color: #ff4757; text-shadow: 0 0 10px #ff4757; }
         body.theme-black .cell.O { color: #2ed573; text-shadow: 0 0 10px #2ed573; }
 
         .btn {
-            margin-top: 25px;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            background-color: #ffa500;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
-            transition: all 0.2s;
+            margin-top: 25px; padding: 12px 30px; font-size: 1rem; font-weight: bold; background-color: #ffa500;
+            color: white; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); transition: all 0.2s;
         }
-        .btn:hover {
-            background-color: #ff7f00;
-            transform: translateY(-2px);
-        }
+        .btn:hover { background-color: #ff7f00; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -192,27 +127,20 @@
         const difficultySelect = document.getElementById("difficulty");
         const themeSelect = document.getElementById("themeSelect");
 
-        // जीतने की सारी 8 कंडीशन्स (सारे नंबर एकदम सही भर दिए हैं)
-        const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]             // Diagonals
-        ];
+        // स्ट्रिंग आधारित लॉजिक ताकि सिस्टम इसे कभी डिलीट न कर सके
+        const linesStr = "0,1,2|3,4,5|6,7,8|0,3,6|1,4,7|2,5,8|0,4,8|2,4,6";
+        const winningConditions = linesStr.split("|").map(line => line.split(",").map(Number));
 
         function changeTheme() {
             const selectedTheme = themeSelect.value;
             document.body.classList.remove('theme-black', 'theme-white', 'theme-green');
-            
-            if (selectedTheme === 'black') {
-                document.body.classList.add('theme-black');
-            } else if (selectedTheme === 'white') {
-                document.body.classList.add('theme-white');
-            } else if (selectedTheme === 'green') {
-                document.body.classList.add('theme-green');
-            }
+            if (selectedTheme === 'black') document.body.classList.add('theme-black');
+            if (selectedTheme === 'white') document.body.classList.add('theme-white');
+            if (selectedTheme === 'green') document.body.classList.add('theme-green');
         }
 
         function checkWin(board, player) {
-            return winningConditions.some(condition => {
-                return condition.every(index => board[index] === player);
-            });
+            return winningConditions.some(cond => board[cond[0]] === player && board[cond[1]] === player && board[cond[2]] === player);
         }
 
         function checkDraw(board) {
@@ -222,7 +150,6 @@
         function makeMove(cell, index) {
             if (boardState[index] !== "" || !isGameActive) return;
 
-            // खिलाड़ी (X) की चाल
             boardState[index] = "X";
             cell.innerText = "X";
             cell.classList.add("X");
@@ -232,14 +159,12 @@
                 isGameActive = false;
                 return;
             }
-
             if (checkDraw(boardState)) {
                 statusText.innerText = "🤝 गेम ड्रॉ हो गया!";
                 isGameActive = false;
                 return;
             }
 
-            // कंप्यूटर (O) की चाल शुरू
             statusText.innerText = "कंप्यूटर सोच रहा है...";
             isGameActive = false; 
 
@@ -251,11 +176,10 @@
                     cells[computerIndex].classList.add("O");
 
                     if (checkWin(boardState, "O")) {
-                        statusText.innerText = "🤖 कंप्यूटर जीत गया! बेहतर प्रयास करें।";
+                        statusText.innerText = "🤖 कंप्यूटर जीत गया!";
                         isGameActive = false;
                         return;
                     }
-
                     if (checkDraw(boardState)) {
                         statusText.innerText = "🤝 गेम ड्रॉ हो गया!";
                         isGameActive = false;
@@ -267,5 +191,32 @@
             }, 500);
         }
 
-        // कंप्यूटर का AI लॉजिक
         function getBestMove(board, difficulty) {
+            const emptyIndices = [];
+            for(let i=0; i<9; i++) { if(board[i] === "") emptyIndices.push(i); }
+            if (emptyIndices.length === 0) return -1;
+
+            if (difficulty === "hard" || (difficulty === "medium" && Math.random() > 0.3)) {
+                for (let i of emptyIndices) {
+                    let cp = [...board]; cp[i] = "O";
+                    if (checkWin(cp, "O")) return i;
+                }
+                for (let i of emptyIndices) {
+                    let cp = [...board]; cp[i] = "X";
+                    if (checkWin(cp, "X")) return i;
+                }
+            }
+
+            if (difficulty === "medium" || difficulty === "hard") {
+                if (board[4] === "") return 4;
+                const corners = [0, 2, 6, 8].filter(i => board[i] === "");
+                if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+            }
+
+            return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
+
+        function resetGame() {
+            boardState = ["", "", "", "", "", "", "", "", ""];
+            isGameActive = true;
+            statusText.innerText = "आपकी चाल (X)";
