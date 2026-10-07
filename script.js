@@ -13,15 +13,16 @@ const computerScoreText = document.getElementById('computer-score');
 const resetRoundBtn = document.getElementById('reset-round-btn');
 const resetAllBtn = document.getElementById('reset-all-btn');
 const themeButtons = document.querySelectorAll('.theme-btn');
+const difficultySelect = document.getElementById('difficulty-select');
 
 // जीतने के पैटर्न
 const winningConditions = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8],
-    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-    [0, 4, 8], [2, 4, 6]
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6]             // Diagonals
 ];
 
-// सेल और इवेंट लिसनर्स
+// इवेंट लिसनर्स
 cells.forEach(cell => {
     cell.addEventListener('click', () => handleCellClick(cell));
 });
@@ -29,11 +30,13 @@ cells.forEach(cell => {
 resetRoundBtn.addEventListener('click', resetRound);
 resetAllBtn.addEventListener('click', resetFullMatch);
 
-// === थीम चेंज करने का नया लॉजिक ===
+// लेवल बदलने पर राउंड रीसेट करें ताकि चीटिंग न हो
+difficultySelect.addEventListener('change', resetRound);
+
+// थीम चेंज लॉजिक
 themeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const selectedTheme = btn.getAttribute('data-theme');
-        // HTML टैग पर थीम सेट करना
         document.documentElement.setAttribute('data-theme', selectedTheme);
     });
 });
@@ -48,7 +51,7 @@ function handleCellClick(cell) {
     if (boardState.includes("")) {
         isGameActive = false;
         statusMessage.textContent = "कंप्यूटर सोच रहा है...";
-        setTimeout(() => { computerMove(); }, 500);
+        setTimeout(() => { computerMove(); }, 400);
     }
 }
 
@@ -58,15 +61,30 @@ function makeMove(index, playerSign) {
     cells[index].classList.add(playerSign.toLowerCase());
 }
 
+// === लेवल्स के हिसाब से कंप्यूटर की चाल का दिमाग ===
 function computerMove() {
+    const level = difficultySelect.value;
+    let chosenMove = null;
+
     let availableCells = [];
     boardState.forEach((val, idx) => { if (val === "") availableCells.push(idx); });
 
-    let chosenMove = findSmartMove("O") || findSmartMove("X");
-    
-    if (chosenMove === null) {
+    if (level === "easy") {
+        // सरल मोड: 100% रैंडम चाल
         const randomIndex = Math.floor(Math.random() * availableCells.length);
         chosenMove = availableCells[randomIndex];
+    } 
+    else if (level === "medium") {
+        // मध्यम मोड: जीतने की कोशिश करो या प्लेयर को ब्लॉक करो, नहीं तो रैंडम चाल
+        chosenMove = findSmartMove("O") || findSmartMove("X");
+        if (chosenMove === null) {
+            const randomIndex = Math.floor(Math.random() * availableCells.length);
+            chosenMove = availableCells[randomIndex];
+        }
+    } 
+    else if (level === "hard") {
+        // कठिन मोड: Minimax एल्गोरिदम (कंप्यूटर कभी नहीं हारेगा!)
+        chosenMove = getBestMove();
     }
 
     makeMove(chosenMove, "O");
@@ -75,6 +93,7 @@ function computerMove() {
     statusMessage.textContent = "आपकी चाल (X)";
 }
 
+// मध्यम मोड के लिए हेल्पर
 function findSmartMove(playerSign) {
     for (let condition of winningConditions) {
         let count = 0;
@@ -88,12 +107,73 @@ function findSmartMove(playerSign) {
     return null;
 }
 
+// कठिन मोड (Minimax) का दिमाग
+function getBestMove() {
+    let bestScore = -Infinity;
+    let move = null;
+    for (let i = 0; i < 9; i++) {
+        if (boardState[i] === "") {
+            boardState[i] = "O";
+            let score = minimax(boardState, 0, false);
+            boardState[i] = "";
+            if (score > bestScore) {
+                bestScore = score;
+                move = i;
+            }
+        }
+    }
+    return move;
+}
+
+function minimax(state, depth, isMaximizing) {
+    let result = checkWinningForMinimax();
+    if (result === "O") return 10 - depth;
+    if (result === "X") return depth - 10;
+    if (!state.includes("")) return 0;
+
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (state[i] === "") {
+                state[i] = "O";
+                let score = minimax(state, depth + 1, false);
+                state[i] = "";
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (state[i] === "") {
+                state[i] = "X";
+                let score = minimax(state, depth + 1, true);
+                state[i] = "";
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+}
+
+function checkWinningForMinimax() {
+    for (let condition of winningConditions) {
+        if (boardState[condition[0]] !== "" &&
+            boardState[condition[0]] === boardState[condition[1]] &&
+            boardState[condition[0]] === boardState[condition[2]]) {
+            return boardState[condition[0]];
+        }
+    }
+    return null;
+}
+
+// परिणाम चेक करना
 function checkResult(playerSign) {
     let roundWon = false;
     for (let condition of winningConditions) {
         if (boardState[condition[0]] === playerSign && 
-            boardState[condition[1]] === playerSign && 
-            boardState[condition[2]] === playerSign) {
+            boardState[condition[0]] === boardState[condition[1]] && 
+            boardState[condition[0]] === boardState[condition[2]]) {
             roundWon = true;
             break;
         }

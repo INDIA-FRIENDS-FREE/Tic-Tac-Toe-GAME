@@ -1,5 +1,4 @@
- /* डिफ़ॉल्ट लाइट (White) थीम के कलर्स */
-:root {
+ :root {
     --bg-color: #f0f2f5;
     --container-bg: #ffffff;
     --text-color: #333333;
@@ -10,9 +9,9 @@
     --primary-btn-hover: #145dbf;
     --scoreboard-bg: #f7f9fa;
     --scoreboard-border: #e4e6eb;
+    --dropdown-bg: #ffffff;
 }
 
-/* 1. Black (Dark) थीम */
 [data-theme="black"] {
     --bg-color: #121212;
     --container-bg: #1e1e1e;
@@ -24,9 +23,9 @@
     --primary-btn-hover: #9965db;
     --scoreboard-bg: #252525;
     --scoreboard-border: #333333;
+    --dropdown-bg: #2d2d2d;
 }
 
-/* 2. Halkaa Green (Mint) थीम */
 [data-theme="green"] {
     --bg-color: #e8f5e9;
     --container-bg: #ffffff;
@@ -38,9 +37,9 @@
     --primary-btn-hover: #1b5e20;
     --scoreboard-bg: #f1f8e9;
     --scoreboard-border: #c8e6c9;
+    --dropdown-bg: #e8f5e9;
 }
 
-/* 3. Begni (Purple) थीम */
 [data-theme="purple"] {
     --bg-color: #f3e5f5;
     --container-bg: #ffffff;
@@ -52,6 +51,7 @@
     --primary-btn-hover: #4a148c;
     --scoreboard-bg: #f3e5f5;
     --scoreboard-border: #e1bee7;
+    --dropdown-bg: #f3e5f5;
 }
 
 * {
@@ -78,25 +78,53 @@ body {
     text-align: center;
     max-width: 400px;
     width: 100%;
-    position: relative;
 }
 
-/* थीम बटन लेआउट */
+/* टॉप बार का नया लेआउट */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* ड्रॉपडाउन बटन की स्टाइलिंग */
+.level-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.level-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.level-dropdown {
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid var(--scoreboard-border);
+    background-color: var(--dropdown-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    outline: none;
+}
+
 .theme-selector {
     display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-bottom: 15px;
+    gap: 6px;
 }
 
 .theme-btn {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    flex: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 .theme-btn:hover {

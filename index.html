@@ -9,12 +9,25 @@
 <body>
 
     <div class="game-container">
-        <!-- थीम बदलने वाले बटन्स -->
-        <div class="theme-selector">
-            <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
-            <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
-            <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
-            <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
+        <!-- टॉप बार: लेवल और थीम सेलेक्टर -->
+        <div class="top-bar">
+            <!-- लेवल सेलेक्ट बटन (ड्रॉपडाउन) -->
+            <div class="level-container">
+                <label for="difficulty-select" class="level-label">लेवल:</label>
+                <select id="difficulty-select" class="level-dropdown">
+                    <option value="easy">सरल (Easy)</option>
+                    <option value="medium" selected>मध्यम (Medium)</option>
+                    <option value="hard">कठिन (Hard)</option>
+                </select>
+            </div>
+
+            <!-- थीम बटन्स -->
+            <div class="theme-selector">
+                <button class="theme-btn white-btn" data-theme="white" title="सफेद थीम"></button>
+                <button class="theme-btn black-btn" data-theme="black" title="काली थीम"></button>
+                <button class="theme-btn green-btn" data-theme="green" title="हल्की हरी थीम"></button>
+                <button class="theme-btn purple-btn" data-theme="purple" title="बैंगनी थीम"></button>
+            </div>
         </div>
 
         <h1>कट-गोला गेम (Tic-Tac-Toe)</h1>
