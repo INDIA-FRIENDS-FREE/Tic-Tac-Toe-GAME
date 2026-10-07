@@ -18,11 +18,8 @@ const themeButtons = document.querySelectorAll('.theme-btn');
 const difficultySelect = document.getElementById('difficulty-select');
 const soundToggleBtn = document.getElementById('sound-toggle-btn');
 
-// जीतने के पैटर्न
-const winningConditions = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-    [0, 4, 8], [2, 4, 6]             // Diagonals
+// जीतने के पैटर्न (Winning Combinations) - यहाँ गलती सुधारी गई है
+const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows (आड़ी लाइनें), [1, 4, 7], [2, 5, 8], // Columns (खड़ी लाइनें), [2, 4, 6]             // Diagonals (तिरछी लाइनें)
 ];
 
 // इवेंट लिसनर्स
@@ -48,7 +45,6 @@ soundToggleBtn.addEventListener('click', () => {
     isSoundOn = !isSoundOn;
     if (isSoundOn) {
         soundToggleBtn.textContent = "🔊";
-        // अगर म्यूट से अनम्यूट किया है, तो ऑडियो को फिर से शुरू करने की कोशिश करें
         if (audioCtx && audioCtx.state === 'suspended') {
             audioCtx.resume();
         }
@@ -57,11 +53,10 @@ soundToggleBtn.addEventListener('click', () => {
     }
 });
 
-// === ब्राउज़र सुरक्षा नियम को अनलॉक करने और साउंड पैदा करने का नया फंक्शन ===
+// === साउंड पैदा करने का फंक्शन ===
 function playSound(type) {
     if (!isSoundOn) return;
 
-    // ब्राउज़र सिक्योरिटी बाईपास: पहली बार क्लिक करने पर ही ऑडियो कॉन्टेक्स्ट को एक्टिवेट करें
     if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (AudioContext) {
@@ -69,7 +64,6 @@ function playSound(type) {
         }
     }
 
-    // अगर ब्राउज़र ने ऑडियो को सस्पेंड (रोक) रखा है, तो उसे जगाएं
     if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
@@ -83,7 +77,6 @@ function playSound(type) {
     gain.connect(audioCtx.destination);
     
     if (type === 'clickX') {
-        // प्लेयर (X) की चाल की आवाज़
         osc.type = 'sine';
         osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 नोट
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
@@ -92,7 +85,6 @@ function playSound(type) {
         osc.stop(audioCtx.currentTime + 0.1);
     } 
     else if (type === 'clickO') {
-        // कंप्यूटर (O) की चाल की आवाज़
         osc.type = 'sine';
         osc.frequency.setValueAtTime(440, audioCtx.currentTime); // A4 नोट
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
@@ -101,7 +93,6 @@ function playSound(type) {
         osc.stop(audioCtx.currentTime + 0.15);
     } 
     else if (type === 'win') {
-        // जीतने की आवाज़
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
         osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
@@ -112,7 +103,6 @@ function playSound(type) {
         osc.stop(audioCtx.currentTime + 0.4);
     }
     else if (type === 'theme') {
-        // थीम चेंज होने की आवाज़
         osc.type = 'sine';
         osc.frequency.setValueAtTime(880, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
@@ -127,7 +117,7 @@ function handleCellClick(cell) {
     if (boardState[clickedCellIndex] !== "" || !isGameActive) return;
 
     makeMove(clickedCellIndex, "X");
-    playSound('clickX'); // यहाँ पहली चाल चलते ही ब्राउज़र का साउंड सिस्टम अनलॉक हो जाएगा
+    playSound('clickX');
 
     if (checkResult("X")) return;
 
@@ -168,8 +158,12 @@ function computerMove() {
         chosenMove = getBestMove();
     }
 
-    makeMove(chosenMove, "O");
-    playSound('clickO'); // कंप्यूटर चाल की साउंड
+    // अगर गेम एक्टिव है और चाल बची है, तभी चाल चलें
+    if (chosenMove !== null) {
+        makeMove(chosenMove, "O");
+        playSound('clickO');
+    }
+    
     isGameActive = true;
     if (checkResult("O")) return;
     statusMessage.textContent = "आपकी चाल (X)";
@@ -251,8 +245,8 @@ function checkResult(playerSign) {
     let roundWon = false;
     for (let condition of winningConditions) {
         if (boardState[condition[0]] === playerSign && 
-            boardState[condition[1]] === playerSign && 
-            boardState[condition[2]] === playerSign) {
+            boardState[condition[0]] === boardState[condition[1]] && 
+            boardState[condition[0]] === boardState[condition[2]]) {
             roundWon = true;
             break;
         }
@@ -260,7 +254,7 @@ function checkResult(playerSign) {
 
     if (roundWon) {
         isGameActive = false;
-        playSound('win'); // राउंड जीतने की आवाज़
+        playSound('win');
         if (playerSign === "X") {
             playerAllTimeScore++;
             playerScoreText.textContent = playerAllTimeScore;
@@ -297,6 +291,18 @@ function disableControls() {
     resetRoundBtn.style.display = "none";
 }
 
+// रिसेट को बिल्कुल साफ़ और फ्रेश बनाने के लिए
 function resetRound() {
     boardState = ["", "", "", "", "", "", "", "", ""];
     isGameActive = true;
+    statusMessage.textContent = "आपकी चाल (X)";
+    cells.forEach(cell => {
+        cell.textContent = "";
+        cell.className = "cell";
+    });
+}
+
+function resetFullMatch() {
+    playerAllTimeScore = 0;
+    computerAllTimeScore = 0;
+    playerScoreText.textContent = "0";
