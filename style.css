@@ -1,0 +1,151 @@
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #0f172a;
+    color: white;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.game-container {
+    text-align: center;
+    background: rgba(30, 41, 59, 0.85);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 90%;
+    max-width: 400px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    color: #38bdf8;
+    text-shadow: 0 0 10px #38bdf8;
+    margin-top: 0;
+    letter-spacing: 1px;
+}
+
+h2 {
+    color: #f1f5f9;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+/* नाम इनपुट बॉक्स */
+input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 20px 0;
+    box-sizing: border-box;
+    border: 2px solid #38bdf8;
+    background-color: #1e293b;
+    color: white;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.1);
+}
+input[type="text"]:focus {
+    box-shadow: 0 0 15px #38bdf8;
+}
+
+/* बटन डिज़ाइन */
+.mode-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.mode-btn {
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.mode-btn:hover { transform: scale(1.03); }
+
+.blue-btn { background: linear-gradient(135deg, #38bdf8, #0284c7); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+.green-btn { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+
+.status-text {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #e2e8f0;
+    font-weight: bold;
+}
+
+/* 3x3 बोर्ड ग्रिड */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.cell {
+    background: #1e293b;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    user-select: none;
+}
+.cell:hover {
+    background: #334155;
+}
+
+/* काँटा (X) और गोला (O) की चमक (Neon Glow) */
+.cell.x-glow {
+    color: #ef4444;
+    text-shadow: 0 0 15px #ef4444;
+    border-color: #ef4444;
+}
+.cell.o-glow {
+    color: #10b981;
+    text-shadow: 0 0 15px #10b981;
+    border-color: #10b981;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-btn {
+    background: linear-gradient(135deg, #64748b, #475569);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    flex: 1;
+}
+.menu-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+.control-btn:hover { transform: scale(1.05); }

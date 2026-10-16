@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Neon Tic-Tac-Toe Pro ⚡</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- स्क्रीन 1: नाम और मोड चुनने की स्क्रीन -->
+        <div id="setupScreen" class="setup-screen">
+            <h1>🎮 काँटा गोला PRO 🎮</h1>
+            <p>गेम खेलने के लिए अपना नाम लिखें:</p>
+            <input type="text" id="playerNameInput" placeholder="अपना नाम यहाँ लिखें..." autocomplete="off">
+            
+            <div class="mode-buttons">
+                <button id="btnVsComputer" class="mode-btn blue-btn">🤖 Computer से खेलें</button>
+                <button id="btnVsFriend" class="mode-btn green-btn">👥 दोस्त से खेलें (Offline)</button>
+            </div>
+        </div>
+
+        <!-- स्क्रीन 2: असली गेम खेलने का बोर्ड -->
+        <div id="gameScreen" class="game-screen" style="display: none;">
+            <h2 id="matchTitle">Player VS Computer</h2>
+            <p class="status-text" id="statusText">X's Turn</p>
+
+            <div class="board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="control-btn" id="resetBtn">Restart Game 🔄</button>
+                <button class="control-btn menu-btn" id="menuBtn">Main Menu 🏠</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- साउंड इफ़ेक्ट के लिए लाइटवेट लिंक्स -->
+    <audio id="clickSound" src="https://mixkit.co"></audio>
+    <audio id="winSound" src="https://mixkit.co"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
