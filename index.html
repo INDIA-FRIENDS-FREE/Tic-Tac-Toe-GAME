@@ -1,30 +1,33 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ Neon Tic-Tac-Toe Pro ⚡</title>
+    <title>⚡ Neon Tic-Tac-Toe Ultra ⚡</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-default">
+
+    <!-- बैकग्राउंड थीम बदलने का बटन (हमेशा टॉप पर रहेगा) -->
+    <button id="themeToggleBtn" class="theme-toggle-btn">Theme 🎨</button>
 
     <div class="game-container">
-        <!-- स्क्रीन 1: नाम और मोड चुनने की स्क्रीन -->
+        <!-- SCREEN 1: WELCOME MENU -->
         <div id="setupScreen" class="setup-screen">
-            <h1>🎮 काँटा गोला PRO 🎮</h1>
-            <p>गेम खेलने के लिए अपना नाम लिखें:</p>
-            <input type="text" id="playerNameInput" placeholder="अपना नाम यहाँ लिखें..." autocomplete="off">
+            <h1>🎮 TIC-TAC-TOE PRO 🎮</h1>
+            <p>Enter your nickname to start:</p>
+            <input type="text" id="playerNameInput" placeholder="Type your name here..." autocomplete="off">
             
             <div class="mode-buttons">
-                <button id="btnVsComputer" class="mode-btn blue-btn">🤖 Computer से खेलें</button>
-                <button id="btnVsFriend" class="mode-btn green-btn">👥 दोस्त से खेलें (Offline)</button>
+                <button id="btnVsComputer" class="mode-btn blue-btn">🤖 VS Computer</button>
+                <button id="btnVsFriend" class="mode-btn green-btn">👥 VS Friend (Offline)</button>
             </div>
         </div>
 
-        <!-- स्क्रीन 2: असली गेम खेलने का बोर्ड -->
+        <!-- SCREEN 2: GAME BOARD -->
         <div id="gameScreen" class="game-screen" style="display: none;">
             <h2 id="matchTitle">Player VS Computer</h2>
-            <p class="status-text" id="statusText">X's Turn</p>
+            <p class="status-text" id="statusText">Your Turn (X)</p>
 
             <div class="board" id="board">
                 <div class="cell" data-index="0"></div>
@@ -45,7 +48,6 @@
         </div>
     </div>
 
-    <!-- साउंड इफ़ेक्ट के लिए लाइटवेट लिंक्स -->
     <audio id="clickSound" src="https://mixkit.co"></audio>
     <audio id="winSound" src="https://mixkit.co"></audio>
 
