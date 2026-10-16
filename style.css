@@ -9,12 +9,11 @@
     transition: background 0.5s ease;
 }
 
-/* थीम्स के अलग-अलग कलर्स */
+/* थीम्स कलर्स */
 body.theme-default { background-color: #0f172a; --glow-color: #38bdf8; }
 body.theme-purple { background-color: #1e1b4b; --glow-color: #a855f7; }
 body.theme-dark { background-color: #020617; --glow-color: #f43f5e; }
 
-/* थीम बदलने वाला फ्लोटिंग बटन */
 .theme-toggle-btn {
     position: absolute;
     top: 20px;
@@ -28,7 +27,6 @@ body.theme-dark { background-color: #020617; --glow-color: #f43f5e; }
     border-radius: 20px;
     cursor: pointer;
     z-index: 100;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .theme-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
@@ -41,15 +39,9 @@ body.theme-dark { background-color: #020617; --glow-color: #f43f5e; }
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 90%;
     max-width: 400px;
-    transition: box-shadow 0.5s ease;
 }
 
-h1 {
-    font-size: 2.2rem;
-    color: #f1f5f9;
-    margin-top: 0;
-    letter-spacing: 1px;
-}
+h1 { font-size: 2.2rem; color: #f1f5f9; margin-top: 0; }
 h2 { color: #f1f5f9; margin-top: 0; font-size: 1.5rem; }
 p { color: #94a3b8; font-size: 1.1rem; }
 
@@ -65,12 +57,10 @@ input[type="text"] {
     font-size: 16px;
     outline: none;
     text-align: center;
-    transition: border 0.5s ease;
 }
 
-.mode-buttons { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-.mode-btn { padding: 14px; font-size: 16px; font-weight: bold; color: white; border: none; border-radius: 25px; cursor: pointer; transition: transform 0.2s; }
-.mode-btn:hover { transform: scale(1.03); }
+.mode-buttons { display: flex; flex-direction: column; gap: 15px; }
+.mode-btn { padding: 14px; font-size: 16px; font-weight: bold; color: white; border: none; border-radius: 25px; cursor: pointer; }
 
 .blue-btn { background: linear-gradient(135deg, #38bdf8, #0284c7); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
 .green-btn { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
@@ -95,25 +85,14 @@ input[type="text"] {
     font-size: 2.8rem;
     font-weight: 800;
     cursor: pointer;
-    transition: all 0.2s ease;
     border: 1px solid transparent;
     user-select: none;
-    color: transparent;
 }
 .cell:hover { background: #334155; }
 
-.cell.x-glow {
-    color: #ef4444;
-    text-shadow: 0 0 15px #ef4444;
-    border-color: #ef4444;
-}
-.cell.o-glow {
-    color: #10b981;
-    text-shadow: 0 0 15px #10b981;
-    border-color: #10b981;
-}
+.cell.x-glow { color: #ef4444; text-shadow: 0 0 15px #ef4444; border-color: #ef4444; }
+.cell.o-glow { color: #10b981; text-shadow: 0 0 15px #10b981; border-color: #10b981; }
 
-.action-buttons { display: flex; gap: 10px; justify-content: center; }
+.action-buttons { display: flex; gap: 10px; }
 .control-btn { background: linear-gradient(135deg, #64748b, #475569); color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 20px; cursor: pointer; flex: 1; }
 .menu-btn { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.control-btn:hover { transform: scale(1.05); }

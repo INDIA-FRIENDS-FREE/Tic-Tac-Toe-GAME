@@ -21,11 +21,14 @@
     let gameState = ["", "", "", "", "", "", "", "", ""];
     let gameActive = true;
 
-    // फिक्स की हुई 100% सही विनिंग कंडीशन्स
-    const winningConditions = [, [3, 4, 5], [6, 7, 8], // Rows, [1, 4, 7], [2, 5, 8], // Columns, [2, 4, 6]             // Diagonals
+    // 🔥 100% सटीक विनिंग एरे (अब कोई गलती नहीं होगी)
+    const winningConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // 横の列 (Rows)
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // 縦の列 (Columns)
+        [0, 4, 8], [2, 4, 6]             // 斜めの列 (Diagonals)
     ];
 
-    // थीम बदलने का लॉजिक
+    // थीम चेंजर लॉजिक
     const themes = ["theme-default", "theme-purple", "theme-dark"];
     let currentThemeIndex = 0;
     themeToggleBtn.addEventListener('click', () => {
@@ -58,11 +61,12 @@
 
         playMove(index, currentPlayer);
 
+        // कंप्यूटर मोड एक्टिवेशन लॉजिक
         if (gameActive && gameMode === "computer" && currentPlayer === "O") {
             gameActive = false; 
             setTimeout(() => {
                 makeComputerMove();
-            }, 500);
+            }, 400);
         }
     }
 
@@ -80,8 +84,6 @@
     }
 
     function makeComputerMove() {
-        if (!gameScreen.style.display === "block") return;
-        
         let emptyIndexes = [];
         for (let i = 0; i < gameState.length; i++) {
             if (gameState[i] === "") emptyIndexes.push(i);
@@ -122,9 +124,9 @@
             if (gameMode === "computer") {
                 statusText.innerHTML = currentPlayer === "X" 
                     ? `🎉 Congratulations ${nickname}! You Won! 🏆` 
-                    : `🤖 Computer Won! Better luck next time.`;
+                    : `🤖 Computer Won! Try Again.`;
             } else {
-                statusText.innerHTML = `🎉 Player ${currentPlayer} Won the Match! 🏆`;
+                statusText.innerHTML = `🎉 Player ${currentPlayer} Won! 🏆`;
             }
             gameActive = false;
             return;
@@ -137,6 +139,7 @@
             return;
         }
 
+        // बारी बदलना (Switch Player)
         currentPlayer = currentPlayer === "X" ? "O" : "X";
         
         if (gameMode === "computer") {
